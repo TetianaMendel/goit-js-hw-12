@@ -92,26 +92,6 @@
 }
 
 
-.loader {
-  display: block;
-  opacity: 0;
-  transform: scale(0.5);
-  margin: 10px auto;
-  width: 48px;
-  height: 48px;
-  border: 5px solid #ddd;
-  border-top: 5px solid #4e75ff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.loader.is-visible {
-  opacity: 1;
-  transform: scale(1);
-}
-
-/* Load More button */
 .load-more {
   display: none;
   margin: 20px auto;
@@ -143,3 +123,18 @@
   transform: translateY(0);
   box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
 }
+.loader {
+  display: none;
+  margin: 20px auto;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #ccc;
+  border-top-color: #333;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loader.visible {
+  display: block;
+}
+

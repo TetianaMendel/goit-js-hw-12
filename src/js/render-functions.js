@@ -49,11 +49,11 @@ export function clearGallery() {
 }
 
 export function showLoader() {
-  loader.classList.add("is-visible");
+  loader.classList.add("visible");
 }
 
 export function hideLoader() {
-  loader.classList.remove("is-visible");
+  loader.classList.remove("visible");
 }
 
 export function showLoadMoreButton() {
