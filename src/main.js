@@ -37,13 +37,10 @@ async function handleSubmit(event) {
 
   try {
     const data = await getImagesByQuery(query, page);
-
     totalHits = data.totalHits;
 
     if (data.hits.length === 0) {
-      iziToast.error({
-        message: "Sorry, no images found.",
-      });
+      iziToast.error({ message: "Sorry, no images found." });
       return;
     }
 
@@ -51,46 +48,58 @@ async function handleSubmit(event) {
 
     if (totalHits > PER_PAGE) {
       showLoadMoreButton();
+    } else {
+      hideLoadMoreButton(); 
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+      });
     }
   } catch (error) {
-    iziToast.error({
-      message: "Error fetching images.",
-    });
+    iziToast.error({ message: "Error fetching images." });
   } finally {
     hideLoader();
   }
-};
+}
 
 async function handleLoadMore() {
-  page += 1;
-  loadMoreBtn.disabled = true; 
+  hideLoadMoreButton(); 
   showLoader();
 
   try {
+    page += 1;
     const data = await getImagesByQuery(query, page);
+
+    if (data.hits.length === 0) {
+      iziToast.info({
+        message: "We're sorry, but you've reached the end of search results.",
+      });
+      return;
+    }
+
     createGallery(data.hits);
 
     const totalPages = Math.ceil(totalHits / PER_PAGE);
+
     if (page >= totalPages) {
       hideLoadMoreButton();
       iziToast.info({
         message: "We're sorry, but you've reached the end of search results.",
       });
+    } else {
+      showLoadMoreButton();
     }
-
+    
     const card = document.querySelector(".gallery-item");
-    const { height } = card.getBoundingClientRect();
-
-    window.scrollBy({
-      top: height * 2,
-      behavior: "smooth",
-    });
+    if (card) {
+      const { height } = card.getBoundingClientRect();
+      window.scrollBy({
+        top: height * 2,
+        behavior: "smooth",
+      });
+    }
   } catch (error) {
-    iziToast.error({
-      message: "Error loading more images.",
-    });
+    iziToast.error({ message: "Error loading more images." });
   } finally {
     hideLoader();
-    loadMoreBtn.disabled = false;
   }
-};
+}
